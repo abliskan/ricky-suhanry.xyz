@@ -1,0 +1,576 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { format } from 'date-fns';
+import characterImage from '../assets/profile-image.jpg';
+
+// Sample certifications data
+const certifications = [
+  {
+    name: "AWS Certified Solutions Architect - Associate",
+    image: "https://images.credly.com/size/340x340/images/0e284c3f-5164-4b21-8660-0d84737941bc/image.png",
+    issueDate: "2024",
+    expiryDate: "2027",
+    credentialId: "AWS-123456"
+  },
+  {
+    name: "Google Cloud Professional Data Engineer",
+    image: "https://images.credly.com/size/340x340/images/2d613ff8-8879-430b-b2d8-925fa29785e8/image.png",
+    issueDate: "2024",
+    expiryDate: "2027",
+    credentialId: "GCP-789012"
+  },
+  {
+    name: "Microsoft Fabric Data Engineer Associate",
+    image: "https://learn.microsoft.com/en-us/media/learn/certification/badges/microsoft-certified-associate-badge.svg",
+    issueDate: "2024",
+    expiryDate: "2027",
+    credentialId: "AZ-345678"
+  }
+];
+
+// Sample blog posts data
+const featuredPosts = [
+  {
+    title: "Implementasi Replikasi Data Menggunakan ScyllaDB CDC",
+    description: "Learn how to implement data replication using ScyllaDB CDC for robust data synchronization across distributed systems.",
+    pubDate: new Date('2024-02-15'),
+    image: "https://images.pexels.com/photos/1181671/pexels-photo-1181671.jpeg",
+    link: "https://nurul-fajar.medium.com/implementasi-replikasi-data-menggunakan-scylladb-cdc-6d6d83662d8e",
+    tags: ["Database", "ScyllaDB", "Replication"],
+    author: "Nurul Fajar"
+  },
+  {
+    title: "Building Scalable Systems with Modern Technologies",
+    description: "Explore best practices for building scalable systems using cutting-edge technologies and architectural patterns.",
+    pubDate: new Date('2024-02-10'),
+    image: "https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg",
+    link: "https://medium.com/example-article-1",
+    tags: ["Architecture", "Scalability"],
+    author: "Tech Team"
+  },
+  {
+    title: "Frontend Development Trends 2024",
+    description: "Discover the latest trends and technologies shaping the future of frontend development.",
+    pubDate: new Date('2024-02-05'),
+    image: "https://images.pexels.com/photos/1181677/pexels-photo-1181677.jpeg",
+    link: "https://medium.com/example-article-2",
+    tags: ["Frontend", "Development"],
+    author: "Design Team"
+  }
+];
+
+// Sample projects data
+const projects = [
+  {
+    title: "End-to-End-Human-Capital-Data-Pipeline",
+    description: "Final project for Full-Stack Data Engineering program focusing on data pipeline implementation and analytics.",
+    tags: ["Python", "Airflow", "PySpark", "Kafka", "Confluent", "PostgreSQL", "MongoDB", "Data Warehouse", "Data Mart", "Looker Studio", "Data Viz", "Lambda Architecture"],
+    repoUrl: "https://github.com/vnobets7/final_project_ftde_ricky"
+  },
+  {
+    title: "End-to-end-Formula-1-Data-Pipeline",
+    description: "Formula 1 Racing Team Alpha seeks to establish a comprehensive data pipeline to transform raw race data into actionable insights that improve race strategy, car performance, and driver development. Currently, the team struggles with siloed data systems, manual data processing, and delayed access to critical information during race weekends. Decision-making is often based on incomplete information or intuition rather than data-driven analysis.",
+    tags: ["Python", "Airflow", "PySpark", "GCS", "Datalake", "Bigquery", "Data Warehouse", "Dbt", "Looker Studio", "Data Viz", "Batch pipeline"],
+    repoUrl: "https://github.com/abliskan/capstone-project-dezoomcamp-1"
+  },
+  {
+    title: "Analytics Dashboard",
+    description: "Interactive analytics dashboard with real-time data visualization and reporting capabilities.",
+    tags: ["Vue", "D3.js"],
+    repoUrl: "https://github.com/example/analytics"
+  }
+];
+
+// Programming languages with icons
+const programmingLanguages = [
+  {
+    name: "Python",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg"
+  },
+  {
+    name: "Java",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg"
+  },
+  {
+    name: "TypeScript",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg"
+  },
+  {
+    name: "SQL",
+    icon: "https://www.svgrepo.com/show/331760/sql-database-generic.svg"
+  }
+];
+
+// Programming frameworks with icons
+const programmingFrameworks = [
+  {
+    name: "Node.js",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg"
+  },
+  {
+    name: "Express.js",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg"
+  },
+  {
+    name: "Django",
+    icon: "https://www.svgrepo.com/show/373554/django.svg"
+  },
+  {
+    name: "FastAPI",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg"
+  }
+];
+
+// Cloud/Data platforms with icons
+const cloudDataPlatforms = [
+  {
+    name: "AWS",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg",
+    description: "S3, Glue, RDS, Redshift"
+  },
+  {
+    name: "Google Cloud",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/googlecloud/googlecloud-original.svg",
+    description: "BigQuery, GCS, Looker Studio"
+  },
+  {
+    name: "Databricks",
+    icon: "https://cdn.brandfetch.io/idSUrLOWbH/theme/dark/symbol.svg?c=1dxbfHSJFAPEGdCLU4o5B"
+  },
+  {
+    name: "Snowflake",
+    icon: "https://www.vectorlogo.zone/logos/snowflake/snowflake-icon.svg"
+  }
+];
+
+// Big Data & Distributed Compute with icons
+const bigDataTools = [
+  {
+    name: "HDFS",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/hadoop/hadoop-original.svg"
+  },
+  {
+    name: "Apache Spark",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apachespark/apachespark-original.svg"
+  },
+  {
+    name: "Apache Airflow",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apacheairflow/apacheairflow-original.svg"
+  },
+  {
+    name: "Apache Kafka",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apachekafka/apachekafka-original.svg"
+  },
+  {
+    name: "Apache Flink",
+    icon: "https://flink.apache.org/img/flink-header-logo.svg"
+  },
+  {
+    name: "Apache Hive",
+    icon: "https://www.vectorlogo.zone/logos/apache_hive/apache_hive-icon.svg"
+  }
+];
+
+// Analytics & Visualization with icons
+const analyticsAIMLTools = [
+  {
+    name: "Pandas",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg"
+  },
+  {
+    name: "NumPy",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg"
+  },
+  {
+    name: "dbt",
+    icon: "https://seeklogo.com/images/D/dbt-logo-500AB0BAA7-seeklogo.com.png"
+  },
+  {
+    name: "Tableau",
+    icon: "https://cdn.worldvectorlogo.com/logos/tableau-software.svg"
+  },
+  {
+    name: "Metabase",
+    icon: "https://www.vectorlogo.zone/logos/metabase/metabase-icon.svg"
+  },
+  {
+    name: "Scikit-learn",
+    icon: "https://upload.wikimedia.org/wikipedia/commons/0/05/Scikit_learn_logo_small.svg"
+  }
+];
+
+// Utility with icons
+const utilityObservabilityTools = [
+  {
+    name: "Docker",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg"
+  },
+  {
+    name: "Terraform",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/terraform/terraform-original.svg"
+  },
+  {
+    name: "GitHub",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
+  },
+  {
+    name: "GitLab",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/gitlab/gitlab-original.svg"
+  },
+  {
+    name: "JIRA",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jira/jira-original.svg"
+  }
+];
+---
+
+<Layout title="Ricky Suhanry | Software & Data Engineer" description="Personal portfolio of Ricky Suhanry - Software Engineer and Data Engineer">
+  <!-- Hero Section -->
+  <section id="home" class="min-h-screen flex items-center justify-center bg-white dark:bg-gray-900">
+    <div class="container mx-auto px-4">
+      <div class="max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <!-- Text Content -->
+          <div class="text-center lg:text-left">
+            <h1 class="text-5xl md:text-6xl lg:text-7xl font-serif font-bold text-gray-900 dark:text-white mb-6">
+              Hi, I'm <span class="text-primary-500">Ricky</span> <span class="waving-hand">👋</span>
+            </h1>
+            <h2 class="text-2xl md:text-3xl lg:text-4xl text-gray-700 dark:text-gray-300 mb-8">
+              <span id="role-text"></span><span class="cursor">|</span>
+            </h2>
+            <p class="text-lg md:text-xl lg:text-2xl text-gray-600 dark:text-gray-400 mb-12 max-w-2xl mx-auto lg:mx-0">
+              I build scalable data pipelines and engineer robust software solutions. Currently focused on data engineering and cloud infrastructure.
+            </p>
+            <div class="flex flex-wrap justify-center lg:justify-start gap-6">
+              <a href="#projects" class="px-8 py-4 text-lg font-medium bg-primary-500 hover:bg-primary-600 text-white rounded-lg transition-all duration-300 transform hover:scale-105">
+                View My Work
+              </a>
+              <a href="#contact" class="px-8 py-4 text-lg font-medium bg-white dark:bg-gray-800 text-primary-500 hover:text-primary-600 dark:text-primary-400 dark:hover:text-primary-300 border-2 border-primary-500 dark:border-primary-400 rounded-lg transition-all duration-300 transform hover:scale-105">
+                Get in Touch
+              </a>
+            </div>
+          </div>
+          
+          <!-- Character Image -->
+          <div class="flex justify-center lg:justify-end">
+            <div class="relative">
+              <img 
+                src={characterImage.src} 
+                alt="Character illustration" 
+                class="w-80 h-auto max-w-full character-image"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Me Section -->
+  <section id="about" class="py-16 bg-gray-50 dark:bg-gray-800">
+    <div class="container mx-auto px-4">
+      <div class="max-w-3xl mx-auto">
+        <h2 class="text-3xl font-serif font-bold text-gray-900 dark:text-white mb-8 text-center">
+          About Me
+        </h2>
+        <div class="prose dark:prose-invert prose-lg mx-auto">
+          <p>
+            My name is Ricky Suhanry, people usually call me by the nickname "Rick". I was born in the capital city of Bangka Belitung, located on Bangka Belitung Island, Indonesia. I came from IT/software engineer background with a Bachelor of Informatics Engineering at Tarumanagara University. After being a Backend Engineer in the year 2023, I decided to transition into a data field. In July 2024, I enrolled in the Fast Track Data Engineer program as a full-time student in Digital Skola. Continue to next year in January 2025, I enrolled in the Data Engineering Cohort 2025 in Data Engineering Zoomcamp from Datatalksclub.
+          </p>
+          <p>
+            My experience as a data practitioner covers Engineering, Analytics, and Data Quality leveraging technical tools and platforms like Python, SQL, NoSQL, Apache Spark, Dbt, Airflow, Looker Studio, Metabase, Snowflake, and AWS/GCP. Although my core technical skill was Data Engineer, I also have had a keen interest in exploring more about DevOps, Machine Learning, and Generative AI. In my free time, I jog and running as a hobby, listening to Jpop music, and trying to learn the Japanese language.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Technical Skills Section -->
+  <section class="py-16 bg-white dark:bg-gray-900">
+    <div class="container mx-auto px-4">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-3xl font-serif font-bold text-gray-900 dark:text-white mb-12 text-center">
+          Technical Skills
+        </h2>
+        
+        <div class="grid gap-8">
+          <!-- Programming Languages -->
+          <div>
+            <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">Programming Languages</h3>
+            <div class="flex justify-center gap-12">
+              {programmingLanguages.map(lang => (
+                <div class="flex flex-col items-center group">
+                  <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md transition-all duration-300 hover:shadow-lg hover:scale-105">
+                    <img 
+                      src={lang.icon} 
+                      alt={lang.name}
+                      class="w-16 h-16 transition-transform duration-300 group-hover:scale-110"
+                    />
+                  </div>
+                  <p class="text-gray-800 dark:text-white font-medium mt-3 text-center">{lang.name}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <!-- Programming Frameworks -->
+          <div>
+            <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">Programming Frameworks</h3>
+            <div class="flex justify-center flex-wrap gap-8">
+              {programmingFrameworks.map(framework => (
+                <div class="flex flex-col items-center group">
+                  <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md transition-all duration-300 hover:shadow-lg hover:scale-105">
+                    <img 
+                      src={framework.icon} 
+                      alt={framework.name}
+                      class="w-16 h-16 transition-transform duration-300 group-hover:scale-110"
+                    />
+                  </div>
+                  <p class="text-gray-800 dark:text-white font-medium mt-3 text-center">{framework.name}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <!-- Cloud/Data Platforms -->
+          <div>
+            <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">Cloud/Data Platforms</h3>
+            <div class="flex justify-center flex-wrap gap-8">
+              {cloudDataPlatforms.map(platform => (
+                <div class="flex flex-col items-center group">
+                  <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md transition-all duration-300 hover:shadow-lg hover:scale-105">
+                    <img 
+                      src={platform.icon} 
+                      alt={platform.name}
+                      class="w-16 h-16 transition-transform duration-300 group-hover:scale-110"
+                    />
+                  </div>
+                  <div class="text-center mt-3">
+                    <p class="text-gray-800 dark:text-white font-medium">{platform.name}</p>
+                    <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">{platform.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <!-- Big Data & Distributed Compute -->
+          <div>
+            <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">Big Data & Distributed Compute</h3>
+            <div class="flex justify-center flex-wrap gap-8">
+              {bigDataTools.map(tool => (
+                <div class="flex flex-col items-center group">
+                  <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md transition-all duration-300 hover:shadow-lg hover:scale-105">
+                    <img 
+                      src={tool.icon} 
+                      alt={tool.name}
+                      class="w-16 h-16 transition-transform duration-300 group-hover:scale-110"
+                    />
+                  </div>
+                  <div class="text-center mt-3">
+                    <p class="text-gray-800 dark:text-white font-medium">{tool.name}</p>
+                    <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">{tool.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <!-- Analytics & Visualization-->
+          <div>
+            <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">Analytics & Visualization</h3>
+            <div class="flex justify-center flex-wrap gap-8">
+              {analyticsAIMLTools.map(tool => (
+                <div class="flex flex-col items-center group">
+                  <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md transition-all duration-300 hover:shadow-lg hover:scale-105">
+                    <img 
+                      src={tool.icon} 
+                      alt={tool.name}
+                      class="w-16 h-16 transition-transform duration-300 group-hover:scale-110"
+                    />
+                  </div>
+                  <div class="text-center mt-3">
+                    <p class="text-gray-800 dark:text-white font-medium">{tool.name}</p>
+                    <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">{tool.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <!-- Utility-->
+          <div>
+            <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">Utility</h3>
+            <div class="flex justify-center flex-wrap gap-8">
+              {utilityObservabilityTools.map(tool => (
+                <div class="flex flex-col items-center group">
+                  <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md transition-all duration-300 hover:shadow-lg hover:scale-105">
+                    <img 
+                      src={tool.icon} 
+                      alt={tool.name}
+                      class="w-16 h-16 transition-transform duration-300 group-hover:scale-110"
+                    />
+                  </div>
+                  <div class="text-center mt-3">
+                    <p class="text-gray-800 dark:text-white font-medium">{tool.name}</p>
+                    <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">{tool.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects" class="py-16 bg-gray-50 dark:bg-gray-800">
+    <div class="container mx-auto px-4">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-3xl font-serif font-bold text-gray-900 dark:text-white mb-12 text-center">
+          Featured Projects
+        </h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {projects.map(project => (
+            <article class="bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden flex flex-col">
+              <div class="p-6 flex-grow">
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">{project.title}</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">
+                  {project.description}
+                </p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                  {project.tags.map(tag => (
+                    <span class="px-3 py-1 text-xs bg-primary-100 dark:bg-primary-800 text-primary-700 dark:text-primary-300 rounded-full">{tag}</span>
+                  ))}
+                </div>
+              </div>
+              <div class="px-6 pb-6">
+                <a 
+                  href={project.repoUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="block w-full px-4 py-2 text-center bg-primary-500 hover:bg-primary-600 text-white rounded-lg transition-colors duration-200"
+                >
+                  View Project
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Get in Touch Section -->
+  <section id="contact" class="py-16 bg-gray-50 dark:bg-gray-800">
+    <div class="container mx-auto px-4">
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 class="text-3xl font-serif font-bold text-gray-900 dark:text-white mb-6">
+          Get in Touch
+        </h2>
+        <div class="flex flex-col items-center gap-6 mb-8">
+          <a href="mailto:hello@astroblog.com" class="flex items-center gap-3 text-lg text-gray-600 dark:text-gray-300 hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-200">
+            <img src="https://api.iconify.design/mdi:email.svg" alt="Email" class="w-6 h-6" />
+            hello@astroblog.com
+          </a>
+          <a href="https://t.me/astroblog" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 text-lg text-gray-600 dark:text-gray-300 hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-200">
+            <img src="https://api.iconify.design/mdi:telegram.svg" alt="Telegram" class="w-6 h-6" />
+            @astroblog
+          </a>
+          
+          <div class="flex justify-center gap-6 mt-4">
+            <a href="https://medium.com/@abliskan.dev" target="_blank" rel="noopener noreferrer" class="text-gray-600 dark:text-gray-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-200">
+              <img src="https://api.iconify.design/mdi:medium.svg" alt="Medium" class="w-8 h-8" />
+              <span class="sr-only">Medium</span>
+            </a>
+            <a href="https://hashnode.com/@datarunner01" target="_blank" rel="noopener noreferrer" class="text-gray-600 dark:text-gray-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-200">
+              <img src="https://www.svgrepo.com/show/330611/hashnode.svg" alt="Hashnode" class="w-8 h-8" />
+              <span class="sr-only">Hashnode</span>
+            </a>
+            <a href="https://github.com/abliskan" target="_blank" rel="noopener noreferrer" class="text-gray-600 dark:text-gray-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-200">
+              <img src="https://api.iconify.design/mdi:github.svg" alt="GitHub" class="w-8 h-8" />
+              <span class="sr-only">GitHub</span>
+            </a>
+            <a href="https://linkedin.com/in/ricky-suhanry" target="_blank" rel="noopener noreferrer" class="text-gray-600 dark:text-gray-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-200">
+              <img src="https://api.iconify.design/mdi:linkedin.svg" alt="LinkedIn" class="w-8 h-8" />
+              <span class="sr-only">LinkedIn</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  html {
+    scroll-behavior: smooth;
+  }
+
+  .cursor {
+    animation: blink 1s infinite;
+  }
+
+  .waving-hand {
+    display: inline-block;
+    animation: wave 2s ease-in-out infinite;
+    transform-origin: 70% 70%;
+  }
+
+  .character-image {
+    filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.2));
+    transition: transform 0.3s ease;
+  }
+
+  .character-image:hover {
+    transform: scale(1.05);
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  @keyframes wave {
+    0%, 100% { transform: rotate(0deg); }
+    10%, 30% { transform: rotate(14deg); }
+    20% { transform: rotate(-8deg); }
+    40%, 60% { transform: rotate(14deg); }
+    50% { transform: rotate(-8deg); }
+    70% { transform: rotate(0deg); }
+  }
+</style>
+
+<script>
+  function updateRoleText() {
+    const roles = [
+      'Software Engineer',
+      'Data Engineer',
+      'DevOps Enthusiast',
+      'AI/ML Enthusiast'
+    ];
+    let currentIndex = 0;
+    const roleElement = document.getElementById('role-text');
+
+    if (!roleElement) return;
+
+    function updateText() {
+      roleElement.textContent = roles[currentIndex];
+      currentIndex = (currentIndex + 1) % roles.length;
+    }
+
+    // Set initial text
+    updateText();
+
+    // Update text every 2 seconds
+    setInterval(updateText, 2000);
+  }
+
+  // Run on initial page load
+  updateRoleText();
+
+  // Run on view transitions
+  document.addEventListener('astro:page-load', updateRoleText);
+</script>

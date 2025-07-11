@@ -1,0 +1,26 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+---
+
+<header class="sticky top-0 z-10 bg-white bg-opacity-80 dark:bg-gray-900 dark:bg-opacity-80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 transition-colors duration-300">
+  <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+    <div class="flex items-center gap-4">
+      <a href="/" class="flex items-center gap-2 hover:opacity-80 transition-opacity duration-200">
+        <!-- R Logo -->
+        <div class="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-600 rounded-lg flex items-center justify-center shadow-lg">
+          <span class="text-white font-bold text-xl font-serif">R</span>
+        </div>
+        <span class="text-xl font-serif font-bold text-gray-900 dark:text-white">icky</span>
+      </a>
+    </div>
+    
+    <nav class="flex items-center">
+      <div class="hidden md:flex items-center space-x-8 mr-8">
+        <a href="/#home" class="text-gray-700 dark:text-gray-300 hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-200">Home</a>
+        <a href="/#about" class="text-gray-700 dark:text-gray-300 hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-200">About</a>
+        <a href="/#projects" class="text-gray-700 dark:text-gray-300 hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-200">Projects</a>
+      </div>
+      <ThemeToggle />
+    </nav>
+  </div>
+</header>

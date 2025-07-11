@@ -1,0 +1,22 @@
+---
+import { getCollection } from 'astro:content';
+import rss from '@astrojs/rss';
+
+export async function GET(context) {
+  const posts = await getCollection('blog', ({ data }) => {
+    return import.meta.env.PROD ? !data.draft : true;
+  });
+  
+  return rss({
+    title: 'AstroBlog',
+    description: 'A modern blog built with Astro',
+    site: context.site,
+    items: posts.map((post) => ({
+      title: post.data.title,
+      pubDate: post.data.pubDate,
+      description: post.data.description,
+      link: `/blog/${post.slug}/`,
+    })),
+  });
+}
+---
