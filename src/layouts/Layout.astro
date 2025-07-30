@@ -74,7 +74,7 @@ const {
       setTheme();
 
       // Handle theme changes
-      document.addEventListener('themeChange', (e) => setTheme());
+      document.dispatchEvent(new Event('themeChange'), (e) => setTheme());
 
       // Handle system theme changes
       window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => setTheme());

@@ -7,8 +7,8 @@ import prefetch from '@astrojs/prefetch';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://rickysuhanry.com',
-  base: '/',
+  site: 'https://abliskan.github.io',
+  base: '/ricky-suhanry.xyz', // Repository name
   integrations: [
     mdx(),
     sitemap(),

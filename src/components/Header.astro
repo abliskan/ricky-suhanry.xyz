@@ -1,5 +1,9 @@
 ---
 import ThemeToggle from './ThemeToggle.astro';
+
+const projectsUrl = Astro.site + "projects";
+const aboutUrl = new URL("about", Astro.site).href;
+const baseUrl = import.meta.env.BASE_URL; // Or use import.meta.env.BASE_URL for base path
 ---
 
 <header class="sticky top-0 z-10 bg-white bg-opacity-80 dark:bg-gray-900 dark:bg-opacity-80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 transition-colors duration-300">
@@ -16,9 +20,9 @@ import ThemeToggle from './ThemeToggle.astro';
     
     <nav class="flex items-center">
       <div class="hidden md:flex items-center space-x-8 mr-8">
-        <a href="/#home" class="text-gray-700 dark:text-gray-300 hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-200">Home</a>
-        <a href="/#about" class="text-gray-700 dark:text-gray-300 hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-200">About</a>
-        <a href="/#projects" class="text-gray-700 dark:text-gray-300 hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-200">Projects</a>
+        <a href={`${baseUrl}`} class="text-gray-700 dark:text-gray-300 hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-200">Home</a>
+        <a href={`${baseUrl}/#about`} class="text-gray-700 dark:text-gray-300 hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-200">About</a>
+        <a href={`${baseUrl}/#projects`} class="text-gray-700 dark:text-gray-300 hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-200">Projects</a>
       </div>
       <ThemeToggle />
     </nav>
