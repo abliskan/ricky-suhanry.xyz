@@ -1,13 +1,7 @@
 # Ricky Suhanry - Portfolio Website
-
 A modern portfolio website built with Astro featuring static site generation with SPA-like features.
 
-## 🚀 Live Demo
-
-Visit the live website: [https://yourusername.github.io/your-repo-name](https://yourusername.github.io/your-repo-name)
-
 ## Features
-
 - 🚀 Built with Astro.js
 - 📝 Markdown and MDX support for content
 - 🎨 Tailwind CSS for styling
